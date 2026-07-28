@@ -3,92 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yoons Sales Notice (전체)</title>
+    <title>Yoons Sales Notice - 메인</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
         body { font-family: 'Pretendard', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .tab-btn.active { background-color: #3b82f6; color: white; font-weight: 600; }
+        .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hover-card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .hover-card:hover { transform: translateY(-6px); border-color: #3b82f6; box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.2); }
     </style>
 </head>
-<body class="min-h-screen pb-12">
+<body class="min-h-screen flex flex-col justify-between">
     <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-lg text-white shadow-lg shadow-blue-500/30">Y</div>
+                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-black text-xl text-white shadow-lg shadow-blue-500/30">Y</div>
                 <div>
-                    <h1 class="font-bold text-lg leading-tight">Yoons Sales Notice (전체)</h1>
-                    <p class="text-xs text-slate-400">실시간 영업 실적 대시보드</p>
+                    <h1 class="font-bold text-xl text-white tracking-tight">Yoons Sales Notice</h1>
+                    <p class="text-xs text-slate-400">윤선생 영업 실적 모니터링 시스템</p>
                 </div>
-            </div>
-            <div id="last-update" class="text-xs text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                <i class="fa-regular fa-clock mr-1.5"></i>자동 동기화 완료
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 pt-8">
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-            <div class="flex bg-slate-800/80 p-1 rounded-xl border border-slate-700/60 w-full sm:w-auto">
-                <button onclick="switchTab('요약_홈')" id="tab-요약_홈" class="tab-btn active px-5 py-2 rounded-lg text-sm transition-all flex-1 sm:flex-none">요약 홈</button>
-                <button onclick="switchTab('상세_홈')" id="tab-상세_홈" class="tab-btn px-5 py-2 rounded-lg text-sm text-slate-400 transition-all flex-1 sm:flex-none">상세 홈</button>
-                <button onclick="switchTab('기준_홈')" id="tab-기준_홈" class="tab-btn px-5 py-2 rounded-lg text-sm text-slate-400 transition-all flex-1 sm:flex-none">기준 정보</button>
-            </div>
-            <div class="relative w-full sm:w-72">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                <input type="text" id="search-input" onkeyup="filterTable()" placeholder="검색어 입력..." class="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-all">
-            </div>
+    <main class="max-w-5xl mx-auto px-6 py-16 flex-1 flex flex-col justify-center items-center w-full">
+        <div class="text-center mb-12">
+            <span class="text-xs font-semibold uppercase tracking-widest text-blue-400 bg-blue-500/10 px-3.5 py-1.5 rounded-full border border-blue-500/20">Dashboard Hub</span>
+            <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-3">본부별 영업 실적 대시보드</h2>
+            <p class="text-slate-400 text-sm max-w-md mx-auto">조회하고자 하는 영업 본부를 선택해 주세요. 실시간 집계 데이터가 제공됩니다.</p>
         </div>
 
-        <div class="glass-card rounded-2xl overflow-hidden shadow-2xl">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="text-xs uppercase bg-slate-800/90 text-slate-400 border-b border-slate-700/80" id="table-head"></thead>
-                    <tbody class="divide-y divide-slate-800/60" id="table-body"></tbody>
-                </table>
-            </div>
+        <div class="grid md:grid-cols-2 gap-8 w-full max-w-3xl">
+            <!-- 서울남 대시보드 카드 -->
+            <a href="seoulnam.html" class="glass-card hover-card rounded-2xl p-8 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center text-blue-400 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-location-dot text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">서울남 본부</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">서울남 지역 가맹점, 회원 및 BM별 매출 실적 상세 현황 대시보드입니다.</p>
+                </div>
+                <div class="mt-8 flex items-center text-sm font-semibold text-blue-400 group-hover:text-blue-300">
+                    대시보드 바로가기 <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
+
+            <!-- 경기남 대시보드 카드 -->
+            <a href="gyeongginam.html" class="glass-card hover-card rounded-2xl p-8 flex flex-col justify-between group">
+                <div>
+                    <div class="w-12 h-12 bg-indigo-500/10 rounded-xl flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all">
+                        <i class="fa-solid fa-map-location-dot text-xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">경기남 본부</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">경기남 지역 가맹점, 회원 및 BM별 매출 실적 상세 현황 대시보드입니다.</p>
+                </div>
+                <div class="mt-8 flex items-center text-sm font-semibold text-indigo-400 group-hover:text-indigo-300">
+                    대시보드 바로가기 <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                </div>
+            </a>
         </div>
     </main>
 
-    <script>
-        let globalData = {};
-        const dataFile = './data/sales_data.json';
-
-        async function loadData() {
-            try {
-                const res = await fetch(dataFile);
-                globalData = await res.json();
-                switchTab('상세_홈');
-            } catch(e) { console.error(e); }
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'text-white'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('text-slate-400'));
-            const activeBtn = document.getElementById(`tab-${tab}`);
-            if(activeBtn) { activeBtn.classList.add('active'); activeBtn.classList.remove('text-slate-400'); }
-            renderTable(globalData[tab] || []);
-        }
-
-        function renderTable(data) {
-            const thead = document.getElementById('table-head');
-            const tbody = document.getElementById('table-body');
-            thead.innerHTML = ''; tbody.innerHTML = '';
-            if(!data.length) { tbody.innerHTML = '<tr><td class="p-6 text-center text-slate-500">데이터가 없습니다.</td></tr>'; return; }
-            
-            const headers = Object.keys(data[0]);
-            thead.innerHTML = '<tr>' + headers.map(h => `<th class="px-6 py-4 font-semibold">${h}</th>`).join('') + '</tr>';
-            tbody.innerHTML = data.map(r => '<tr class="hover:bg-slate-800/40">' + headers.map(h => `<td class="px-6 py-3.5 whitespace-nowrap">${r[h] ?? ''}</td>`).join('') + '</tr>').join('');
-        }
-
-        function filterTable() {
-            const q = document.getElementById('search-input').value.toLowerCase();
-            document.querySelectorAll('#table-body tr').forEach(r => r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none');
-        }
-
-        window.onload = loadData;
-    </script>
+    <footer class="border-t border-slate-800/80 bg-slate-900/40 py-6 text-center text-xs text-slate-500">
+        © Yoons Educational Group. All rights reserved.
+    </footer>
 </body>
 </html>
