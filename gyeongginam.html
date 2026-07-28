@@ -3,117 +3,2112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>경기남 본부 영업 실적 - Yoons Sales Notice</title>
+    <title>경기남 영업실적 · 공지사항 · 자료실</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-        body { font-family: 'Pretendard', sans-serif; background-color: #0f172a; color: #f8fafc; }
-        .tab-btn.active { background-color: #2563eb; color: #ffffff; font-weight: 600; }
-        th, td { white-space: nowrap; }
+        body { font-family: 'Pretendard', sans-serif; background-color: #f8fafc; color: #1e293b; }
+        .badge-green { background-color: #15803d; color: white; }
+        .badge-darkgreen { background-color: #064e3b; color: white; }
+        .badge-orange { background-color: #c2410c; color: white; }
+        .card-box { background: white; border: 1px solid #e2e8f0; border-radius: 12px; }
+        th, td { text-align: center; font-size: 11px; white-space: nowrap; }
+        .tbl-header-blue { background-color: #eff6ff; color: #1d4ed8; }
+        .tbl-header-red { background-color: #fef2f2; color: #b91c1c; }
+        .tbl-header-green { background-color: #f0fdf4; color: #15803d; }
+        .tbl-header-gray { background-color: #f8fafc; color: #475569; }
     </style>
 </head>
-<body class="min-h-screen pb-12">
-    <header class="border-b border-slate-800 bg-slate-900/90 sticky top-0 z-50 backdrop-blur-md">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <a href="index.html" class="text-slate-400 hover:text-white mr-2"><i class="fa-solid fa-arrow-left"></i></a>
-                <span class="font-bold text-lg text-white">경기남 본부 영업 실적</span>
+<body class="min-h-screen pb-16">
+    <!-- 상단 유틸리티 바 -->
+    <div class="bg-slate-100 border-b border-slate-200 py-2 px-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center text-xs text-slate-600">
+            <div class="flex items-center gap-2">
+                <span class="font-bold text-red-600">YES 윤선생</span>
+                <span class="font-extrabold text-slate-800 text-sm">영어교실</span>
+                <span class="badge-darkgreen px-2 py-0.5 rounded text-[11px] font-semibold">경기남</span>
+                <span class="badge-green px-2 py-0.5 rounded text-[11px] font-semibold">사장단 공지</span>
+                <span class="badge-orange px-2 py-0.5 rounded-full text-[11px] font-semibold">● 기준일 2026-07-23 · 진행중</span>
             </div>
-            <div id="update-time" class="text-xs text-slate-400 bg-slate-800 px-3 py-1.5 rounded-full border border-slate-700">
-                실시간 데이터 동기화
+            <div class="flex items-center gap-3">
+                <a href="seoulnam.html" class="hover:underline text-slate-500">서울남 사장단 페이지는 별도 링크로 안내드립니다</a>
+                <button class="bg-slate-200 hover:bg-slate-300 px-2.5 py-1 rounded text-[11px] text-slate-700 font-medium">다크모드</button>
             </div>
         </div>
-    </header>
+    </div>
 
     <main class="max-w-7xl mx-auto px-6 pt-6">
-        <!-- 탭 및 검색창 -->
-        <div class="flex flex-col sm:flex-row justify-between items-center gap-4 mb-6">
-            <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700 w-full sm:w-auto">
-                <button onclick="switchTab('상세_홈')" id="tab-상세_홈" class="tab-btn active px-5 py-2 rounded-lg text-sm text-slate-300">상세 홈</button>
-                <button onclick="switchTab('요약_홈')" id="tab-요약_홈" class="tab-btn px-5 py-2 rounded-lg text-sm text-slate-400">요약 홈</button>
-                <button onclick="switchTab('기준_홈')" id="tab-기준_홈" class="tab-btn px-5 py-2 rounded-lg text-sm text-slate-400">기준 정보</button>
+        <!-- 타이틀 -->
+        <div class="mb-4">
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">경기남 영업실적 · 공지사항 · 자료실</h1>
+            <p class="text-xs text-slate-500 mt-1">
+                담당 매니저: 박정선 (02-2225-5410 / 010-4893-5410 / panasha@yoons.com) · 기준일: 2026-07-23 (2026-07-23 기준 진행중인 이번 달 잠정치)
+            </p>
+        </div>
+
+        <div class="h-0.5 bg-slate-800 w-full mb-4"></div>
+
+        <!-- 대외비 배너 -->
+        <div class="bg-red-600 text-white text-center py-2.5 rounded-lg font-bold text-sm shadow-sm mb-6 flex items-center justify-center gap-2">
+            <i class="fa-solid fa-lock"></i> 본 영업실적 링크는 <span class="underline decoration-2">대외비</span>이며, <span class="underline decoration-2">외부 유출은 불가</span>합니다. 사장님 개인 확인 용도로만 사용해 주세요.
+        </div>
+
+        <!-- 공지사항 -->
+        <div class="card-box p-5 mb-8 border-l-4 border-l-emerald-600 relative">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="font-bold text-slate-900 text-base flex items-center gap-2">
+                    <span class="text-red-500 font-black">📊</span> 공지사항
+                </h3>
+                <span class="text-xs text-slate-400">2026-07-27 기준</span>
             </div>
-            <div class="relative w-full sm:w-80">
-                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-slate-400 text-sm"></i>
-                <input type="text" id="search-input" onkeyup="filterTable()" placeholder="센터명, 사업자, 데이터 검색..." class="w-full bg-slate-800 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+            <h4 class="font-bold text-slate-800 text-sm mb-1.5">경기남 사장님들께 드리는 안내</h4>
+            <p class="text-xs text-blue-600">
+                안녕하세요. 사장님들 박정선매니저입니다. 앞으로 지역 실적은 주1회 (금) 업데이트될 예정이며, 주요 공지 사항도 해당 링크를 통해 안내드리도록 하겠습니다.
+            </p>
+        </div>
+
+        <!-- 이번 달 실적 요약 섹션 -->
+        <div class="mb-10">
+            <div class="flex items-center gap-3 mb-3">
+                <h2 class="text-lg font-bold text-slate-900">이번 달 실적 요약</h2>
+                <div class="flex items-center gap-2 text-xs">
+                    <span class="text-slate-500 font-medium">조회 기준월</span>
+                    <select class="border border-slate-300 rounded px-2 py-1 text-xs bg-white font-medium text-slate-700">
+                        <option>2026년 07월 (현재 시점)</option>
+                    </select>
+                    <span class="bg-amber-600 text-white font-bold px-2 py-0.5 rounded-full text-[11px]">● 2026-07-23 기준 진행중 잠정치</span>
+                </div>
+            </div>
+
+            <!-- 4대 요약 카드 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                <div class="card-box p-4 border-t-2 border-t-blue-500">
+                    <p class="text-xs text-blue-600 font-semibold mb-1">매출 (당월, 진행중)</p>
+                    <div class="flex items-baseline gap-1 mb-2">
+                        <span class="text-2xl font-extrabold text-blue-700">50,659</span><span class="text-sm font-bold text-blue-700">천원</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 space-y-0.5 border-b border-slate-100 pb-2 mb-2">
+                        <div>전월대비 <span class="text-red-500 font-bold">▼ 25.1%</span></div>
+                        <div>전년동기대비 <span class="text-red-500 font-bold">▼ 35.2%</span></div>
+                    </div>
+                    <div class="text-[11px] text-slate-700 font-semibold">2026년 지역 누적 440,606천원</div>
+                    <div class="text-[11px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded inline-block mt-1">센터당 지역평균 2,026천원</div>
+                </div>
+
+                <div class="card-box p-4 border-t-2 border-t-orange-500">
+                    <p class="text-xs text-orange-600 font-semibold mb-1">회원수 (당월)</p>
+                    <div class="flex items-baseline gap-1 mb-2">
+                        <span class="text-2xl font-extrabold text-orange-600">1,149</span><span class="text-sm font-bold text-orange-600">명</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 space-y-0.5 border-b border-slate-100 pb-2 mb-2">
+                        <div>전월대비 <span class="text-red-500 font-bold">▼ 1.0%</span></div>
+                        <div>전년동기대비 <span class="text-red-500 font-bold">▼ 16.5%</span></div>
+                    </div>
+                    <div class="text-[11px] text-orange-700 font-semibold">센터당 지역평균 46명</div>
+                </div>
+
+                <div class="card-box p-4 border-t-2 border-t-emerald-500">
+                    <p class="text-xs text-emerald-600 font-semibold mb-1">신규회원 (당월)</p>
+                    <div class="flex items-baseline gap-1 mb-2">
+                        <span class="text-2xl font-extrabold text-emerald-600">35</span><span class="text-sm font-bold text-emerald-600">명</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 space-y-0.5 border-b border-slate-100 pb-2 mb-2">
+                        <div>전월대비 <span class="text-red-500 font-bold">▼ 22.2%</span></div>
+                        <div>전년동기대비 <span class="text-red-500 font-bold">▼ 18.6%</span></div>
+                    </div>
+                    <div class="text-[11px] text-slate-700 font-semibold">2026년 지역 누적 389명</div>
+                    <div class="text-[11px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded inline-block mt-1">센터당 지역평균 1명</div>
+                </div>
+
+                <div class="card-box p-4 border-t-2 border-t-slate-400 flex flex-col justify-between">
+                    <div>
+                        <p class="text-xs text-slate-500 font-semibold mb-1">담당 센터 수</p>
+                        <div class="flex items-baseline gap-1 mb-2">
+                            <span class="text-2xl font-extrabold text-slate-800">43</span><span class="text-sm font-bold text-slate-800">개</span>
+                        </div>
+                    </div>
+                    <div class="text-[11px] text-slate-400">전체 활동 센터</div>
+                </div>
+            </div>
+
+            <!-- 참고지표 평균 -->
+            <div class="card-box p-4 bg-slate-50 mb-6">
+                <p class="text-xs font-bold text-slate-700 mb-2">지역 참고지표 평균 (최신월 기준, 센터 단순평균)</p>
+                <div class="grid grid-cols-5 gap-4 text-xs text-center">
+                    <div><span class="text-slate-400 block text-[11px]">휴던전환율</span><span class="font-extrabold text-slate-800 text-sm">8.3%</span></div>
+                    <div><span class="text-slate-400 block text-[11px]">중단율</span><span class="font-extrabold text-slate-800 text-sm">6.6%</span></div>
+                    <div><span class="text-slate-400 block text-[11px]">회원당매출</span><span class="font-extrabold text-slate-800 text-sm">52,224원</span></div>
+                    <div><span class="text-slate-400 block text-[11px]">회원당 학습차시</span><span class="font-extrabold text-slate-800 text-sm">19.0회</span></div>
+                    <div><span class="text-slate-400 block text-[11px]">회원당 YLSI</span><span class="font-extrabold text-slate-800 text-sm">56.2</span></div>
+                </div>
+            </div>
+
+            <!-- 추이 차트 -->
+            <div class="card-box p-5 mb-10">
+                <h3 class="text-xs font-bold text-slate-800 mb-0.5">지역 전체 회원수 추이 (2026년)</h3>
+                <p class="text-[11px] text-slate-400 mb-4">1월부터 현재까지 경기남 전체 회원수 합계 추이입니다 · 07월은 진행중인 현재 시점 잠정치입니다.</p>
+                <div class="h-44 w-full"><canvas id="membersChart"></canvas></div>
             </div>
         </div>
 
-        <!-- 실적 표 -->
-        <div class="bg-slate-800/60 border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm text-slate-200">
-                    <thead class="text-xs uppercase bg-slate-900/80 text-slate-400 border-b border-slate-700" id="table-head"></thead>
-                    <tbody class="divide-y divide-slate-800" id="table-body"></tbody>
+        <!-- 🏢 센터별 실적 표 영역 -->
+        <div class="card-box p-6 mb-12">
+            <h2 class="text-lg font-bold text-slate-900 mb-1">센터별 실적 (43개 센터)</h2>
+            <p class="text-xs text-slate-500 leading-relaxed mb-3">
+                목표·달성률은 제외하고 매출·회원·신규회원의 당월 값, 전월대비·전년동기대비, 2026년 누적을 표시합니다. 참고 지표는 지역 평균 대비가 함께 표시됩니다. 
+                <span class="font-bold text-slate-700">당월 회원수 내림차순으로 정렬되어 있습니다.</span>
+            </p>
+
+            <div class="flex items-center gap-4 text-xs font-semibold mb-3">
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> 매출</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-red-500"></span> 회원수</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> 신규회원</span>
+                <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-600"></span> 참고 지표</span>
+            </div>
+
+            <!-- 산식 안내 박스 -->
+            <div class="bg-amber-50 border border-amber-200 text-amber-900 p-3 rounded-lg text-xs mb-6">
+                <span class="font-bold">지역평균대비 산식:</span> (센터 값 ÷ 지역 평균 값 - 1) × 100 — 지역 평균과의 상대적 비율 차이입니다 (%p 차이가 아닙니다).
+            </div>
+
+            <!-- 내 센터 찾기 검색창 (순수 클라이언트 필터링) -->
+            <div class="flex items-center gap-3 mb-4">
+                <span class="font-bold text-xs text-slate-800">내 센터 찾기</span>
+                <div class="relative w-64">
+                    <input type="text" id="center-search-input" onkeyup="filterRows()" placeholder="센터명 또는 사장님 성함 검색..." class="w-full border border-slate-300 rounded-md pl-3 pr-8 py-1.5 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    <i class="fa-solid fa-magnifying-glass absolute right-2.5 top-2.5 text-slate-400 text-xs"></i>
+                </div>
+            </div>
+
+            <!-- 센터 상세 테이블 -->
+            <div class="overflow-x-auto border border-slate-200 rounded-lg">
+                <table class="w-full border-collapse text-xs">
+                    <thead>
+                        <tr class="border-b border-slate-200 text-slate-700">
+                            <th class="p-2.5 border-r border-slate-200 bg-slate-50 min-w-[120px]" rowspan="2">센터</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-blue" colspan="4">매출</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-red" colspan="4">회원수</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-green" colspan="4">신규회원</th>
+                            <th class="p-2 tbl-header-gray" colspan="5">참고 지표 (2026년 04월~ 제공)</th>
+                        </tr>
+                        <tr class="border-b border-slate-200 text-[11px] text-slate-600">
+                            <th class="p-2 border-r border-slate-200 tbl-header-blue">당월</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-blue">전월대비</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-blue">전년동기대비</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-blue">2026 누적</th>
+                            
+                            <th class="p-2 border-r border-slate-200 tbl-header-red">당월</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-red">전월대비</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-red">전년동기대비</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-red">추이(12개월)</th>
+                            
+                            <th class="p-2 border-r border-slate-200 tbl-header-green">당월</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-green">전월대비</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-green">전년동기대비</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-green">2026 누적</th>
+                            
+                            <th class="p-2 border-r border-slate-200 tbl-header-gray">휴던전환율</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-gray">중단율</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-gray">회원당매출</th>
+                            <th class="p-2 border-r border-slate-200 tbl-header-gray">회원당 학습차시</th>
+                            <th class="p-2 tbl-header-gray">회원당 YLSI</th>
+                        </tr>
+                    </thead>
+                    <tbody id="center-table-body" class="divide-y divide-slate-200 bg-white">
+                        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+        <tr class="hover:bg-slate-50 transition-colors border-b border-slate-100 center-row">
+            <td class="p-2.5 text-left border-r border-slate-200 font-bold search-target">
+                <div class="text-slate-900">교실</div>
+                <div class="text-[10px] text-slate-400 font-normal">사장님</div>
+            </td>
+            <!-- 매출 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-blue-900">0천원</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+            <!-- 회원수 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-red-600">0명</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+            <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
+            <!-- 신규회원 -->
+            <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">0명</td>
+            <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
+            <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
+            <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
+            <!-- 참고지표 + 지역평균대비 -->
+            <td class="p-2 border-r border-slate-100">
+                <div>8.5%</div>
+                <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>3.7%</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▼43.3%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>57,443원</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲10.0%</div>
+            </td>
+            <td class="p-2 border-r border-slate-100">
+                <div>21.3회</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲12.3%</div>
+            </td>
+            <td class="p-2">
+                <div>64.4</div>
+                <div class="text-[10px] text-emerald-600 font-semibold">지역평균대비<br>▲14.7%</div>
+            </td>
+        </tr>
+        
+                    </tbody>
                 </table>
             </div>
         </div>
     </main>
 
     <script>
-        let globalData = {};
-        let currentTab = '상세_홈';
-        const dataFile = './data/gyeongginam_data.json';
-
-        async function loadData() {
-            try {
-                const res = await fetch(dataFile);
-                globalData = await res.json();
-                switchTab('상세_홈');
-            } catch(e) { console.error(e); }
-        }
-
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.tab-btn').forEach(b => {
-                b.classList.remove('active', 'text-white');
-                b.classList.add('text-slate-400');
+        function filterRows() {
+            const q = document.getElementById('center-search-input').value.toLowerCase().trim();
+            const rows = document.querySelectorAll('.center-row');
+            rows.forEach(r => {
+                r.style.display = r.innerText.toLowerCase().includes(q) ? '' : 'none';
             });
-            const activeBtn = document.getElementById(`tab-${tab}`);
-            if(activeBtn) {
-                activeBtn.classList.add('active');
-                activeBtn.classList.remove('text-slate-400');
-            }
-            renderTable(globalData[tab] || []);
         }
 
-        function renderTable(data) {
-            const thead = document.getElementById('table-head');
-            const tbody = document.getElementById('table-body');
-            thead.innerHTML = ''; tbody.innerHTML = '';
-
-            if(!data || !data.length) {
-                tbody.innerHTML = '<tr><td class="p-8 text-center text-slate-500" colspan="100">데이터가 없습니다.</td></tr>';
-                return;
+        const ctx = document.getElementById('membersChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1월', '2월', '3월', '4월', '5월', '6월', '7월*'],
+                datasets: [{
+                    label: '회원수',
+                    data: [1219, 1194, 1202, 1174, 1172, 1161, 1149],
+                    borderColor: '#f97316',
+                    backgroundColor: 'rgba(249, 115, 22, 0.05)',
+                    borderWidth: 2,
+                    pointBackgroundColor: '#f97316',
+                    pointRadius: 3,
+                    tension: 0.2,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { min: 1000, max: 1300, grid: { color: '#f1f5f9' }, ticks: { font: { size: 10 } } },
+                    x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+                }
             }
-
-            const headers = Object.keys(data[0]);
-            thead.innerHTML = '<tr>' + headers.map(h => `<th class="px-5 py-3.5 font-semibold text-slate-300 bg-slate-900/90">${h}</th>`).join('') + '</tr>';
-            
-            tbody.innerHTML = data.map(r => 
-                '<tr class="hover:bg-slate-700/40 transition-colors">' + 
-                headers.map(h => `<td class="px-5 py-3 text-slate-300">${r[h] ?? ''}</td>`).join('') + 
-                '</tr>'
-            ).join('');
-        }
-
-        function filterTable() {
-            const q = document.getElementById('search-input').value.toLowerCase().trim();
-            const rawList = globalData[currentTab] || [];
-            
-            if(!q) {
-                renderTable(rawList);
-                return;
-            }
-
-            const filtered = rawList.filter(row => {
-                return Object.values(row).some(val => String(val).toLowerCase().includes(q));
-            });
-            renderTable(filtered);
-        }
-
-        window.onload = loadData;
+        });
     </script>
 </body>
 </html>
