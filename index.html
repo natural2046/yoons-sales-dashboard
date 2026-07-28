@@ -126,7 +126,7 @@
                     <div>
                         <p class="text-xs text-slate-500 font-semibold mb-1">담당 센터 수</p>
                         <div class="flex items-baseline gap-1 mb-2">
-                            <span class="text-2xl font-extrabold text-slate-800" id="center-total-badge">25</span><span class="text-sm font-bold text-slate-800">개</span>
+                            <span class="text-2xl font-extrabold text-slate-800" id="center-total-badge">0</span><span class="text-sm font-bold text-slate-800">개</span>
                         </div>
                     </div>
                     <div class="text-[11px] text-slate-400">전체 활동 센터</div>
@@ -153,11 +153,9 @@
             </div>
         </div>
 
-        <!-- ---------------------------------------------------- -->
-        <!-- 🏢 센터별 실적 표 (이미지 레퍼런스 2 100% 반영 영역) -->
-        <!-- ---------------------------------------------------- -->
+        <!-- 🏢 센터별 실적 표 영역 -->
         <div class="card-box p-6 mb-12">
-            <h2 class="text-lg font-bold text-slate-900 mb-1">센터별 실적 (<span id="center-count-txt">25</span>개 센터)</h2>
+            <h2 class="text-lg font-bold text-slate-900 mb-1">센터별 실적 (<span id="center-count-txt">0</span>개 센터)</h2>
             <p class="text-xs text-slate-500 leading-relaxed mb-3">
                 목표·달성률은 제외하고 매출·회원·신규회원의 당월 값, 전월대비·전년동기대비, 2026년 누적을 표시합니다. 참고 지표는 지역 평균 대비가 함께 표시됩니다. 
                 <span class="font-bold text-slate-700">당월 회원수 내림차순으로 정렬되어 있습니다.</span>
@@ -196,22 +194,21 @@
                             <th class="p-2 tbl-header-gray" colspan="5">참고 지표 (2026년 04월~ 제공)</th>
                         </tr>
                         <tr class="border-b border-slate-200 text-[11px] text-slate-600">
-                            <!-- 매출 -->
                             <th class="p-2 border-r border-slate-200 tbl-header-blue">당월</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-blue">전월대비</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-blue">전년동기대비</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-blue">2026 누적</th>
-                            <!-- 회원수 -->
+                            
                             <th class="p-2 border-r border-slate-200 tbl-header-red">당월</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-red">전월대비</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-red">전년동기대비</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-red">추이(12개월)</th>
-                            <!-- 신규회원 -->
+                            
                             <th class="p-2 border-r border-slate-200 tbl-header-green">당월</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-green">전월대비</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-green">전년동기대비</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-green">2026 누적</th>
-                            <!-- 참고지표 -->
+                            
                             <th class="p-2 border-r border-slate-200 tbl-header-gray">휴던전환율</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-gray">중단율</th>
                             <th class="p-2 border-r border-slate-200 tbl-header-gray">회원당매출</th>
@@ -220,7 +217,7 @@
                         </tr>
                     </thead>
                     <tbody id="center-table-body" class="divide-y divide-slate-200 bg-white">
-                        <!-- 파이썬 엑셀 데이터가 당월 회원수 내림차순 정렬 후 로딩됨 -->
+                        <!-- 동적 바인딩 로딩 -->
                     </tbody>
                 </table>
             </div>
@@ -228,62 +225,90 @@
     </main>
 
     <script>
-        const dataFile = '{{DATA_FILE}}';
+        const dataFile = './data/seoulnam_data.json';
         let rawCenterData = [];
+
+        // 컬럼명 유연 추출 보조 함수
+        function getVal(row, keys) {
+            for(let k of keys) {
+                for(let rowKey in row) {
+                    if(rowKey.replace(/\s+/g, '').includes(k)) return row[rowKey];
+                }
+            }
+            return '';
+        }
 
         async function initTable() {
             try {
                 const res = await fetch(dataFile);
                 const json = await res.json();
-                rawCenterData = json['상세_홈'] || [];
+                
+                // 상세_홈 시트 또는 최상위 배열 자동 파싱
+                rawCenterData = json['상세_홈'] || json['요약_홈'] || (Array.isArray(json) ? json : []);
 
-                // 💡 당월 회원수 내림차순 자동 정렬
+                // 💡 당월 회원수 기준 내림차순 정렬
                 rawCenterData.sort((a, b) => {
-                    const numA = parseInt(String(a['당월_회원수'] || a['실회원'] || 0).replace(/[^0-9]/g, '')) || 0;
-                    const numB = parseInt(String(b['당월_회원수'] || b['실회원'] || 0).replace(/[^0-9]/g, '')) || 0;
-                    return numB - numA;
+                    const valA = String(getVal(a, ['실회원', '회원수', '당월회원']) || 0).replace(/[^0-9]/g, '');
+                    const valB = String(getVal(b, ['실회원', '회원수', '당월회원']) || 0).replace(/[^0-9]/g, '');
+                    return (parseInt(valB) || 0) - (parseInt(valA) || 0);
                 });
 
                 document.getElementById('center-count-txt').innerText = rawCenterData.length;
                 document.getElementById('center-total-badge').innerText = rawCenterData.length;
                 renderCenterRows(rawCenterData);
-            } catch(e) { console.error(e); }
+            } catch(e) { 
+                console.error(e); 
+            }
         }
 
         function renderCenterRows(list) {
             const tbody = document.getElementById('center-table-body');
             tbody.innerHTML = '';
 
-            if(!list.length) {
-                tbody.innerHTML = '<tr><td colspan="18" class="p-6 text-center text-slate-400">검색 조건에 일치하는 센터가 없습니다.</td></tr>';
+            if(!list || !list.length) {
+                tbody.innerHTML = '<tr><td colspan="18" class="p-6 text-center text-slate-400">조회할 데이터가 없습니다.</td></tr>';
                 return;
             }
 
             tbody.innerHTML = list.map(r => {
-                const centerName = r['사업자명'] || r['가맹점명'] || r['센터명'] || '교실';
-                const ownerName = r['대표자명'] || r['사장님'] || '사장님';
+                const centerName = getVal(r, ['사업자명', '가맹점명', '센터명', '교실명']) || Object.values(r)[0] || '교실';
+                const ownerName = getVal(r, ['대표자명', '사장님', '원장명', '성함']) || '사장님';
                 
+                const salesMonth = getVal(r, ['당월매출', '매출']) || '-';
+                const salesPrev = getVal(r, ['매출전월']) || '▼ 11.9%';
+                const salesYear = getVal(r, ['매출전년']) || '▼ 28.1%';
+                const salesTotal = getVal(r, ['매출누적', '누적']) || '-';
+
+                const memberMonth = getVal(r, ['실회원', '회원수']) || '-';
+                const memberPrev = getVal(r, ['회원전월']) || '▼ 1.9%';
+                const memberYear = getVal(r, ['회원전년']) || '▼ 14.8%';
+
+                const newMonth = getVal(r, ['신규회원', '신규']) || '-';
+                const newPrev = getVal(r, ['신규전월']) || '▲ 33.3%';
+                const newYear = getVal(r, ['신규전년']) || '▼ 20.0%';
+                const newTotal = getVal(r, ['신규누적']) || '-';
+
                 return `<tr class="hover:bg-slate-50 transition-colors border-b border-slate-100">
                     <td class="p-2.5 text-left border-r border-slate-200 font-bold">
                         <div class="text-slate-900">${centerName}</div>
                         <div class="text-[10px] text-slate-400 font-normal">${ownerName}</div>
                     </td>
                     <!-- 매출 -->
-                    <td class="p-2 border-r border-slate-100 font-bold text-blue-900">${r['당월매출'] || '4,962천원'}</td>
-                    <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 11.9%</td>
-                    <td class="p-2 border-r border-slate-100 text-red-500 font-medium">▼ 28.1%</td>
-                    <td class="p-2 border-r border-slate-200 text-slate-600">85,474천원</td>
+                    <td class="p-2 border-r border-slate-100 font-bold text-blue-900">${salesMonth}</td>
+                    <td class="p-2 border-r border-slate-100 text-red-500 font-medium">${salesPrev}</td>
+                    <td class="p-2 border-r border-slate-100 text-red-500 font-medium">${salesYear}</td>
+                    <td class="p-2 border-r border-slate-200 text-slate-600">${salesTotal}</td>
                     <!-- 회원수 -->
-                    <td class="p-2 border-r border-slate-100 font-bold text-red-600">${r['실회원'] || '124명'}</td>
-                    <td class="p-2 border-r border-slate-100 text-red-500">▼ 1.9%</td>
-                    <td class="p-2 border-r border-slate-100 text-red-500">▼ 14.8%</td>
+                    <td class="p-2 border-r border-slate-100 font-bold text-red-600">${memberMonth}</td>
+                    <td class="p-2 border-r border-slate-100 text-red-500">${memberPrev}</td>
+                    <td class="p-2 border-r border-slate-100 text-red-500">${memberYear}</td>
                     <td class="p-2 border-r border-slate-200 text-center"><span class="text-orange-500 font-bold">📈 추이</span></td>
                     <!-- 신규회원 -->
-                    <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">${r['신규회원'] || '4명'}</td>
-                    <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">▲ 33.3%</td>
-                    <td class="p-2 border-r border-slate-100 text-red-500">▼ 20.0%</td>
-                    <td class="p-2 border-r border-slate-200 text-slate-600">46명</td>
-                    <!-- 참고지표 + 지역평균대비 -->
+                    <td class="p-2 border-r border-slate-100 font-bold text-emerald-700">${newMonth}</td>
+                    <td class="p-2 border-r border-slate-100 text-emerald-600 font-medium">${newPrev}</td>
+                    <td class="p-2 border-r border-slate-100 text-red-500">${newYear}</td>
+                    <td class="p-2 border-r border-slate-200 text-slate-600">${newTotal}</td>
+                    <!-- 참고지표 -->
                     <td class="p-2 border-r border-slate-100">
                         <div>8.5%</div>
                         <div class="text-[10px] text-red-500 font-semibold">지역평균대비<br>▲2.7%</div>
@@ -315,7 +340,6 @@
             renderCenterRows(filtered);
         }
 
-        // 상단 추이 차트
         const ctx = document.getElementById('membersChart').getContext('2d');
         new Chart(ctx, {
             type: 'line',
